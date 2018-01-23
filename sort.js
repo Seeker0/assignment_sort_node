@@ -124,15 +124,12 @@ const benchmark = array => {
 
   methods.forEach(method => {
     let startTime = Date.now();
-
-    method(array);
+    method(array(10000));
     let endTime = Date.now();
-
     console.log(
-      `${methodNames.shift()} took ${endTime - startTime} seconds to sort. \n`
+      `${methodNames.shift()} takes ${endTime - startTime}ms to complete.`
     );
   });
 };
 
-console.log(MergeSort(array(1000)));
-// console.log(array(1000));
+benchmark(array);
