@@ -1,3 +1,5 @@
+const util = require('util');
+
 //--------------------------------
 //Insertion Sort
 //--------------------------------
@@ -57,4 +59,40 @@ function BubbleSort(arr) {
 // Merge Sort
 //--------------------------------
 
-const array = [51386, 9, 1, 8, 4, 7, 3, 2, 100];
+const merge = (left, right) => {
+  console.log(left, right);
+  const newArray = [];
+  let val1 = null;
+  let val2 = null;
+  while (left.length || right.length) {
+    val1 = val1 ? val1 : left.shift();
+    val2 = val2 ? val2 : right.shift();
+    if (val1 > val2) {
+      newArray.push(val2);
+      val2 = null;
+    } else {
+      newArray.push(val1);
+      val1 = null;
+    }
+  }
+  val1 ? newArray.push(val1) : console.log('no val1');
+  val2 ? newArray.push(val2) : console.log('no val2');
+  console.log('newArray');
+  console.log(newArray);
+  return newArray;
+};
+
+const array = [51386, 9, 1, 8, 4, 7, 2, 100];
+
+const splitter = array => {
+  if (array.length <= 1) {
+    return array;
+  }
+  let left = array.slice(0, array.length / 2);
+  let right = array.slice(array.length / 2);
+  return merge(splitter(left), splitter(right));
+};
+
+console.log(splitter(array));
+
+// console.log(util.inspect(splitter(array), false, null));
