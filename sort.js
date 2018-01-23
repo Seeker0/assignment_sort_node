@@ -1,4 +1,4 @@
-const util = require("util");
+const util = require('util');
 
 //--------------------------------
 //Insertion Sort
@@ -59,26 +59,6 @@ function BubbleSort(arr) {
 // Merge Sort
 //--------------------------------
 
-// const merge = (left, right) => {
-//   const newArray = [];
-//   let val1 = null;
-//   let val2 = null;
-//   while (left.length || right.length) {
-//     val1 = val1 ? val1 : left.shift();
-//     val2 = val2 ? val2 : right.shift();
-//     if (val1 > val2) {
-//       newArray.push(val2);
-//       val2 = null;
-//     } else {
-//       newArray.push(val1);
-//       val1 = null;
-//     }
-//   }
-//   val1 ? newArray.push(val1) : console.log("no val1");
-//   val2 ? newArray.push(val2) : console.log("no val2");
-//   return newArray;
-// };
-
 const merge = (left, right) => {
   const newArr = [];
   const lLen = left.length;
@@ -87,11 +67,7 @@ const merge = (left, right) => {
   let r = 0;
 
   while (l < lLen && r < rLen) {
-    if (left[l] < right[r]) {
-      newArr.push(left[l++]);
-    } else {
-      newArr.push(right[r++]);
-    }
+    left[l] < right[r] ? newArr.push(left[l++]) : newArr.push(right[r++]);
   }
 
   return newArr.concat(left.slice(l)).concat(right.slice(r));
@@ -119,8 +95,8 @@ function MergeSort(array) {
 //--------------------------------
 
 const benchmark = array => {
-  let methods = [insertionSort, BubbleSort, MergeSort];
-  let methodNames = ["insertionSort", "BubbleSort", "MergeSort"];
+  let methods = [quickSort];
+  let methodNames = ['QuickSort'];
 
   methods.forEach(method => {
     let startTime = Date.now();
@@ -134,5 +110,40 @@ const benchmark = array => {
   });
 };
 
-console.log(MergeSort(array(1000)));
-// console.log(array(1000));
+function quickSort(arr, left, right) {
+  var len = arr.length,
+    pivot,
+    partitionIndex;
+
+  if (left < right) {
+    pivot = right;
+    partitionIndex = partition(arr, pivot, left, right);
+
+    //sort left and right
+    quickSort(arr, left, partitionIndex - 1);
+    quickSort(arr, partitionIndex + 1, right);
+  }
+  return arr;
+}
+
+function partition(arr, pivot, left, right) {
+  var pivotValue = arr[pivot],
+    partitionIndex = left;
+
+  for (var i = left; i < right; i++) {
+    if (arr[i] < pivotValue) {
+      swap(arr, i, partitionIndex);
+      partitionIndex++;
+    }
+  }
+  swap(arr, right, partitionIndex);
+  return partitionIndex;
+}
+
+function swap(arr, i, j) {
+  var temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
+
+benchmark(array);
