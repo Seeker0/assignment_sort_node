@@ -15,14 +15,46 @@ function insert(arr, rightIndex, value) {
   arr[i + 1] = value;
 }
 
-const array = [1, 9, 8, 4, 7, 2, 3];
-
 const insertionSort = arr => {
-  for (i = arr[arr.length - 1]; i >= 0; i--) {
-    insert(arr, arr.length - 2, arr.pop());
-    console.log(arr);
+  let sorted = [arr.shift()];
+
+  for (let index = arr.length - 1; index >= 0; index--) {
+    insert(sorted, sorted.length - 1, arr.pop());
   }
-  return arr;
+  return sorted;
 };
 
-insertionSort(array);
+// console.log(insertionSort(array));
+
+//--------------------------------
+// Bubble Sort
+//--------------------------------
+
+function BubbleSort(arr) {
+  let sorted = false;
+  let placeholder;
+  let i = 0;
+
+  while (sorted !== true || i !== arr.length - 1) {
+    if (i === 0) {
+      sorted = true;
+    }
+
+    if (arr[i] > arr[i + 1]) {
+      placeholder = arr[i + 1];
+      arr[i + 1] = arr[i];
+      arr[i] = placeholder;
+      sorted = false;
+    }
+
+    i >= arr.length - 1 ? (i = 0) : i++;
+  }
+
+  return arr;
+}
+
+//--------------------------------
+// Merge Sort
+//--------------------------------
+
+const array = [51386, 9, 1, 8, 4, 7, 3, 2, 100];
