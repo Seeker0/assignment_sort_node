@@ -1,4 +1,4 @@
-const util = require('util');
+const util = require("util");
 
 //--------------------------------
 //Insertion Sort
@@ -59,40 +59,80 @@ function BubbleSort(arr) {
 // Merge Sort
 //--------------------------------
 
+// const merge = (left, right) => {
+//   const newArray = [];
+//   let val1 = null;
+//   let val2 = null;
+//   while (left.length || right.length) {
+//     val1 = val1 ? val1 : left.shift();
+//     val2 = val2 ? val2 : right.shift();
+//     if (val1 > val2) {
+//       newArray.push(val2);
+//       val2 = null;
+//     } else {
+//       newArray.push(val1);
+//       val1 = null;
+//     }
+//   }
+//   val1 ? newArray.push(val1) : console.log("no val1");
+//   val2 ? newArray.push(val2) : console.log("no val2");
+//   return newArray;
+// };
+
 const merge = (left, right) => {
-  console.log(left, right);
-  const newArray = [];
-  let val1 = null;
-  let val2 = null;
-  while (left.length || right.length) {
-    val1 = val1 ? val1 : left.shift();
-    val2 = val2 ? val2 : right.shift();
-    if (val1 > val2) {
-      newArray.push(val2);
-      val2 = null;
+  const newArr = [];
+  const lLen = left.length;
+  const rLen = right.length;
+  let l = 0;
+  let r = 0;
+
+  while (l < lLen && r < rLen) {
+    if (left[l] < right[r]) {
+      newArr.push(left[l++]);
     } else {
-      newArray.push(val1);
-      val1 = null;
+      newArr.push(right[r++]);
     }
   }
-  val1 ? newArray.push(val1) : console.log('no val1');
-  val2 ? newArray.push(val2) : console.log('no val2');
-  console.log('newArray');
-  console.log(newArray);
-  return newArray;
+
+  return newArr.concat(left.slice(l)).concat(right.slice(r));
 };
 
-const array = [51386, 9, 1, 8, 4, 7, 2, 100];
+const array = n => {
+  let result = [];
+  for (let x = 0; x <= n - 1; x++) {
+    result.push(Math.ceil(Math.random(0, 1) * 1000));
+  }
+  return result;
+};
 
-const splitter = array => {
+function MergeSort(array) {
   if (array.length <= 1) {
     return array;
   }
   let left = array.slice(0, array.length / 2);
   let right = array.slice(array.length / 2);
-  return merge(splitter(left), splitter(right));
+  return merge(MergeSort(left), MergeSort(right));
+}
+
+//--------------------------------
+// Benchmarking
+//--------------------------------
+
+const benchmark = array => {
+  let methods = [insertionSort, BubbleSort, MergeSort];
+  let methodNames = ["insertionSort", "BubbleSort", "MergeSort"];
+
+  methods.forEach(method => {
+    let startTime = Date.now();
+
+    method(array);
+    let endTime = Date.now();
+
+    console.log(
+      `${methodNames.shift()} took ${endTime - startTime} seconds to sort. \n`
+    );
+  });
 };
 
-console.log(splitter(array));
-
-// console.log(util.inspect(splitter(array), false, null));
+console.log(MergeSort(array(1000)));
+// console.log(array(1000));
