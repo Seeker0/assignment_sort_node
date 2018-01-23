@@ -95,17 +95,15 @@ function MergeSort(array) {
 //--------------------------------
 
 const benchmark = array => {
-  let methods = [quickSort];
-  let methodNames = ['QuickSort'];
+  let methods = [MergeSort, quickSort];
+  let methodNames = ['MergeSort', 'QuickSort'];
 
   methods.forEach(method => {
     let startTime = Date.now();
-
-    method(array);
+    method(array(100000));
     let endTime = Date.now();
-
     console.log(
-      `${methodNames.shift()} took ${endTime - startTime} seconds to sort. \n`
+      `${methodNames.shift()} takes ${endTime - startTime}ms to complete.`
     );
   });
 };
